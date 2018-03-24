@@ -14,26 +14,28 @@
   </head>
   <body>
     <h1>Správca</h1>
-    <div width=100%>
-      <div class="left">
-        <table>
-          <tr>
-            <th>Meno družinky</th>
-            <th>Body</th>
-          </tr>
-          {% for druzinka in druzinky %}
+    {% if user.is_superuser %}
+      <div width=100%>
+        <div class="left">
+          <table>
             <tr>
-              <td>{{ druzinka.name }}</td>
-              <td>{{ druzinka.points }}</td>
+              <th>Meno družinky</th>
+              <th>Body</th>
             </tr>
+            {% for druzinka in druzinky %}
+              <tr>
+                <td>{{ druzinka.name }}</td>
+                <td>{{ druzinka.points }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+        <div class="right">
+          {% for message in messages %}
+            <p>{{ message }}</p>
           {% endfor %}
-        </table>
+        </div>
       </div>
-      <div class="right">
-        {% for message in messages %}
-          <p>{{ message }}</p>
-        {% endfor %}
-      </div>
-    </div>
+    {% endif %}
   </body>
 </html>
