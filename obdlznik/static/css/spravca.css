@@ -1,0 +1,15 @@
+body {
+  margin: 10px;
+}
+
+.left {
+  float: left;
+  width: 30%;
+  padding: 10px;
+}
+
+.right {
+  float: right;
+  width: 70%;
+  padding: 10px;
+}

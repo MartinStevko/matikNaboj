@@ -7,6 +7,10 @@ from random import randint, choice
 from django.contrib.auth.models import User
 from .models import *
 
+def index(request):
+    template = 'obdlznik/index.html'
+    return render(request, template, {})
+
 def druzinka(request):
     template = 'obdlznik/druzinka.html'
     druzinka = Druzinka.objects.get(idUser=request.User)
@@ -59,3 +63,28 @@ def druzinka(request):
 
     else:
         return render(request, template, {'druzinka':druzinka})
+
+def opravovatel(request):
+    template = 'obdlznik/opravovatel.html'
+    druzinky = Druzinka.objects.all()
+
+    if request.method == 'POST':
+        try:
+            druzinka = Druzina.objects.get(pk=request.POST['druzinka'])
+        except (KeyError, ValueError, Druzinka.DoesNotExist):
+            message = 'Družinka neexistuje!'
+            error = 'Vedúcko opravovateľ - ' + message
+            Message.objects.create(text=error)
+            return render(request, template, {'druzinky':druzinky, 'message': message})
+
+        druzinka.points += int(request.POST['points'])
+        return HttpResponseRedirect(reverse('obdlznik:opravovatel'))
+
+    else:
+        return render(request, template, {'druzinky': druzinky})
+
+def spravca(request):
+    template = 'obdlznik/spravca.html'
+    druzinky = Druzinka.objects.all()
+    messages = Message.objects.all()
+    return render(request, template, {'druzinky':druzinky, 'messages':messages})
