@@ -7,8 +7,12 @@ from random import randint, choice
 from django.contrib.auth.models import User
 from .models import *
 
-def index(request):
-    template = 'obdlznik/index.html'
+def error_404(request):
+    template = 'obdlznik/error_404.html'
+    return render(request, template, {})
+
+def error_500(request):
+    template = 'obdlznik/error_500.html'
     return render(request, template, {})
 
 def druzinka(request):
