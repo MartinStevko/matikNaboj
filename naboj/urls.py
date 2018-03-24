@@ -1,3 +1,5 @@
+# Debug must be set to false because of 404 and 500 handlers
+
 """naboj URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -15,9 +17,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import handler404, handler500
+
+from obdlznik import views as obdlznik_views
+# from trojuholnik import views as trojuholnik_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('obdlznik/', include('obdlznik.urls')),
     path('trojuholnik/', include('trojuholnik.urls')),
+    path('', include('obdlznik.urls')),
 ]
+
+handler404 = obdlznik_views.error_404
+handler500 = obdlznik_views.error_500
+
+# handler404 = trojuholnik_views.error_404
+# handler500 = trojuholnik_views.error_500
