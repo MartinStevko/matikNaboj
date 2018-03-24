@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 
 <!-- Auto refresh -->
 <meta http-equiv="refresh" content="10">
@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Správca</title>
     <!--<link rel="icon" href="../img/icon.png" type="png">-->
-    <link rel="stylesheet" href="{% static 'css/spravca.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/spravca.css' %}">
   </head>
   <body>
     <h1>Správca</h1>
@@ -36,8 +36,6 @@
           {% endfor %}
         </div>
       </div>
-    {% else %}
-      <h1>You don't have enough permissions!</h1>
     {% endif %}
   </body>
 </html>
