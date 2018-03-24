@@ -8,12 +8,12 @@ from django.contrib.auth.models import User
 from .models import *
 
 def error_404(request):
-    template = 'obdlznik/error_404.html'
-    return render(request, template, {})
+    template = 'obdlznik/error.html'
+    return render(request, template, {'number':404})
 
 def error_500(request):
-    template = 'obdlznik/error_500.html'
-    return render(request, template, {})
+    template = 'obdlznik/error.html'
+    return render(request, template, {'number':500})
 
 def druzinka(request):
     template = 'obdlznik/druzinka.html'

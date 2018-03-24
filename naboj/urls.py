@@ -16,7 +16,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, re_path, include
 from django.conf.urls import handler404, handler500
 
 from obdlznik import views as obdlznik_views
@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('obdlznik/', include('obdlznik.urls')),
     path('trojuholnik/', include('trojuholnik.urls')),
-    path('', include('obdlznik.urls')),
+    re_path(r'^', include('obdlznik.urls')),
 ]
 
 handler404 = obdlznik_views.error_404
