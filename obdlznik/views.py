@@ -27,7 +27,7 @@ def druzinka(request):
                 Message.objects.create(text=error)
                 return render(request, template, {'druzinka':druzinka, 'message':message})
 
-            elif request.POST['x']=druzinka.me_x and request.POST['y']=druzinka.me_y:
+            elif request.POST['x']==druzinka.me_x and request.POST['y']==druzinka.me_y:
                 message = 'Posun na miesto kde práve stojíte nie je možný!'
                 error = str(druzinka.nazov) + ' - ' + message
                 Message.objects.create(text=error)
