@@ -24,7 +24,6 @@ from obdlznik import views as obdlznik_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('obdlznik/', include('obdlznik.urls')),
     path('trojuholnik/', include('trojuholnik.urls')),
     re_path(r'^', include('obdlznik.urls')),
 ]

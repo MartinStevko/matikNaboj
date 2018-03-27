@@ -5,8 +5,8 @@ from . import views
 app_name = 'trojuholnik'
 
 urlpatterns = [
-    path('hra', views.druzinka),
-    path('body', views.opravovatel),
-    path('spravca', views.spravca),
+    path('obdlznik/hra', views.druzinka),
+    path('obdlznik/body', views.opravovatel),
+    path('obdlznik/spravca', views.spravca),
     re_path(r'^', views.error_404)
 ]
