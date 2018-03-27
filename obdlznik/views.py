@@ -90,5 +90,5 @@ def opravovatel(request):
 def spravca(request):
     template = 'obdlznik/spravca.html'
     druzinky = Druzinka.objects.all()
-    messages = Message.objects.all()
+    messages = reversed(Message.objects.all())
     return render(request, template, {'druzinky':druzinky, 'messages':messages})
