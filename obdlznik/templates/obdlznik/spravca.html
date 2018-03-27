@@ -1,4 +1,4 @@
-{% load static %}
+{% load staticfiles %}
 
 <!-- Auto refresh -->
 <meta http-equiv="refresh" content="10">
@@ -10,14 +10,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Správca</title>
     <!--<link rel="icon" href="../img/icon.png" type="png">-->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/spravca.css' %}">
+    <link rel="stylesheet" href="{% static 'css/spravca.css' %}">
   </head>
   <body>
     <h1>Správca</h1>
     {% if user.is_superuser %}
       <div width=100%>
         <div class="left">
-          <table>
+          <table class="text">
             <tr>
               <th>Meno družinky</th>
               <th>Body</th>
@@ -25,17 +25,22 @@
             {% for druzinka in druzinky %}
               <tr>
                 <td>{{ druzinka.name }}</td>
-                <td>{{ druzinka.points }}</td>
+                <td id="point">{{ druzinka.points }}</td>
               </tr>
             {% endfor %}
           </table>
         </div>
         <div class="right">
           {% for message in messages %}
-            <p>{{ message }}</p>
+            {% if message.importance %}
+              <p class="important text">{{ message.time }} - {{ message.text }}</p>
+            {% else %}
+              <p class="text">{{ message.time }} - {{ message.text }}</p>
+            {% endif %}
           {% endfor %}
         </div>
       </div>
+      <div style="clear:both"></div>
     {% endif %}
   </body>
 </html>
