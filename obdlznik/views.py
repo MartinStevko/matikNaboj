@@ -81,9 +81,16 @@ def opravovatel(request):
             Message.objects.create(text=error)
             return render(request, template, {'druzinky':druzinky, 'message': message})
 
-        druzinka.points += int(request.POST['points'])
+        try:
+            druzinka.points += int(request.POST['points'])
+        except (TypeError, KeyError, ValueError):
+            message = 'Zadaj body!'
+            error = 'Vedúcko opravovateľ - ' + message
+            Message.objects.create(text=error)
+            return render(request, template, {'druzinky':druzinky, 'message': message})
+
         druzinka.save()
-        
+
         return redirect('/obdlznik/ulohy')
 
     else:
