@@ -6,7 +6,7 @@ app_name = 'trojuholnik'
 
 urlpatterns = [
     path('obdlznik/hra', views.druzinka),
-    path('obdlznik/body', views.opravovatel),
+    path('obdlznik/ulohy', views.opravovatel),
     path('obdlznik/spravca', views.spravca),
     re_path(r'^', views.error_404)
 ]
