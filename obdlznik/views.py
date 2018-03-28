@@ -15,6 +15,13 @@ def error_500(request):
     template = 'obdlznik/error.html'
     return render(request, template, {'number':500})
 
+def log(request):
+    template = 'obdlznik/log.html'
+
+def index(request):
+    template = 'obdlznik/index.html'
+    return render(request, template, {})
+
 def druzinka(request):
     template = 'obdlznik/druzinka.html'
     druzinka = Druzinka.objects.get(idUser=request.User)
