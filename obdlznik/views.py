@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from django.http import HttpResponseRedirect
 
 from django.utils import timezone
@@ -74,15 +74,16 @@ def opravovatel(request):
 
     if request.method == 'POST':
         try:
-            druzinka = Druzina.objects.get(pk=request.POST['druzinka'])
-        except (KeyError, ValueError, Druzinka.DoesNotExist):
-            message = 'Družinka neexistuje!'
+            druzinka = Druzinka.objects.get(pk=int(request.POST['druzinka']))
+        except (TypeError, KeyError, ValueError, Druzinka.DoesNotExist):
+            message = 'Vyber družinku!'
             error = 'Vedúcko opravovateľ - ' + message
             Message.objects.create(text=error)
             return render(request, template, {'druzinky':druzinky, 'message': message})
 
         druzinka.points += int(request.POST['points'])
-        return HttpResponseRedirect(reverse('obdlznik:opravovatel'))
+        druzinka.save()
+        return redirect('/obdlznik/ulohy')
 
     else:
         return render(request, template, {'druzinky': druzinky})
