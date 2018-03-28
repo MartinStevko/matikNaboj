@@ -20,12 +20,12 @@
           <table class="text">
             <tr>
               <th>Meno družinky</th>
-              <th>Body</th>
+              <th>Ciele</th>
             </tr>
             {% for druzinka in druzinky %}
               <tr>
                 <td>{{ druzinka.name }}</td>
-                <td id="point">{{ druzinka.points }}</td>
+                <td id="point">{{ druzinka.goals }}</td>
               </tr>
             {% endfor %}
           </table>
