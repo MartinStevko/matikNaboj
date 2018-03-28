@@ -1,0 +1,22 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <title>Družinka neexistuje</title>
+    <!--<link rel="icon" href="../img/icon.png" type="png">-->
+  </head>
+  <body style="padding: 20px;">
+    <a href="../">
+      <div class="alert alert-danger alert-dismissible fade show">
+        <center><b>{{ message }}</b></center>
+      </div>
+    </a>
+  </body>
+</html>
