@@ -5,7 +5,7 @@ from django.utils import timezone
 from random import randint, choice
 
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .models import *
 
 def error_404(request):
@@ -35,8 +35,13 @@ def log_in(request):
     else:
         return render(request, template, {})
 
+def logout_page(request):
+    template = 'obdlznik/logout.html'
+    return render(request, template, {})
+
 def log_out(request):
-    pass
+    logout(request)
+    return redirect('/obdlznik/')
 
 def index(request):
     template = 'obdlznik/index.html'
