@@ -5,6 +5,7 @@ from django.utils import timezone
 from random import randint, choice
 
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from .models import *
 
 def error_404(request):
@@ -15,8 +16,27 @@ def error_500(request):
     template = 'obdlznik/error.html'
     return render(request, template, {'number':500})
 
-def log(request):
-    template = 'obdlznik/log.html'
+def log_in(request):
+    template = 'obdlznik/login.html'
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/obdlznik/')
+        else:
+            message = 'Zadané používateľské meno alebo heslo je neprávne!'
+            error = username + ' (' + password + ') - ' + message
+            Message.objects.create(text=error, importance=True)
+            return render(request, template, {'message':message})
+
+    else:
+        return render(request, template, {})
+
+def log_out(request):
+    pass
 
 def index(request):
     template = 'obdlznik/index.html'
