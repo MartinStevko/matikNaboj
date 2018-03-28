@@ -1,0 +1,5 @@
+druzinky = [#
+    'Jablko',
+    'Katastrofa',
+    'Priklad',
+]
