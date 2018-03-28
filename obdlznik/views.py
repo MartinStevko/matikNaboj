@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from django.http import HttpResponseRedirect
 
 from django.utils import timezone
@@ -7,9 +7,13 @@ from random import randint, choice
 from django.contrib.auth.models import User
 from .models import *
 
-def index(request):
-    template = 'obdlznik/index.html'
-    return render(request, template, {})
+def error_404(request):
+    template = 'obdlznik/error.html'
+    return render(request, template, {'number':404})
+
+def error_500(request):
+    template = 'obdlznik/error.html'
+    return render(request, template, {'number':500})
 
 def druzinka(request):
     template = 'obdlznik/druzinka.html'
@@ -23,7 +27,7 @@ def druzinka(request):
                 Message.objects.create(text=error)
                 return render(request, template, {'druzinka':druzinka, 'message':message})
 
-            elif request.POST['x']=druzinka.me_x and request.POST['y']=druzinka.me_y:
+            elif request.POST['x']==druzinka.me_x and request.POST['y']==druzinka.me_y:
                 message = 'Posun na miesto kde práve stojíte nie je možný!'
                 error = str(druzinka.nazov) + ' - ' + message
                 Message.objects.create(text=error)
@@ -70,15 +74,24 @@ def opravovatel(request):
 
     if request.method == 'POST':
         try:
-            druzinka = Druzina.objects.get(pk=request.POST['druzinka'])
-        except (KeyError, ValueError, Druzinka.DoesNotExist):
-            message = 'Družinka neexistuje!'
+            druzinka = Druzinka.objects.get(pk=int(request.POST['druzinka']))
+        except (TypeError, KeyError, ValueError, Druzinka.DoesNotExist):
+            message = 'Vyber družinku!'
             error = 'Vedúcko opravovateľ - ' + message
             Message.objects.create(text=error)
             return render(request, template, {'druzinky':druzinky, 'message': message})
 
-        druzinka.points += int(request.POST['points'])
-        return HttpResponseRedirect(reverse('obdlznik:opravovatel'))
+        try:
+            druzinka.points += int(request.POST['points'])
+        except (TypeError, KeyError, ValueError):
+            message = 'Zadaj body!'
+            error = 'Vedúcko opravovateľ - ' + message
+            Message.objects.create(text=error)
+            return render(request, template, {'druzinky':druzinky, 'message': message})
+
+        druzinka.save()
+
+        return redirect('/obdlznik/ulohy')
 
     else:
         return render(request, template, {'druzinky': druzinky})
@@ -86,5 +99,5 @@ def opravovatel(request):
 def spravca(request):
     template = 'obdlznik/spravca.html'
     druzinky = Druzinka.objects.all()
-    messages = Message.objects.all()
+    messages = reversed(Message.objects.all())
     return render(request, template, {'druzinky':druzinky, 'messages':messages})

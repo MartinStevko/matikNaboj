@@ -1,12 +1,12 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views
 
 app_name = 'trojuholnik'
 
 urlpatterns = [
-    path('hra', views.druzinka),
-    path('body', views.opravovatel),
-    path('spravca', views.spravca),
-    path('', views.index),
+    path('obdlznik/hra', views.druzinka),
+    path('obdlznik/ulohy', views.opravovatel),
+    path('obdlznik/spravca', views.spravca),
+    re_path(r'^', views.error_404)
 ]

@@ -1,0 +1,38 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opravovateľ</title>
+    <!--<link rel="icon" href="../img/icon.png" type="png">-->
+    <link rel="stylesheet" href="{% static 'css/opravovatel.css' %}">
+  </head>
+  <body>
+    <h1>Opravovateľ</h1>
+    {% if user.is_staff %}
+      <!--<label for="druzinka">Vyber družinku:</label>-->
+      <div class="text">
+        {% if message %}
+          <p><b>{{ message }}</b></p>
+        {% endif %}
+        <div>
+        Vyber družinku a body (0-5):
+          <form method="POST">
+            {% csrf_token %}
+            <select name="druzinka">
+              <option value="none">----------</option>
+              {% for druzinka in druzinky %}
+                <option value="{{ druzinka.id }}">{{ druzinka.name }}</option>
+              {% endfor %}
+            </select>
+            <input class="field" name="points" type="number" min="0" max="5">
+            <br>
+            <input type="submit" value="Pridaj body">
+          </form>
+        </div>
+      </div>
+    {% endif %}
+  </body>
+</html>

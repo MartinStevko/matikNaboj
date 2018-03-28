@@ -17,27 +17,30 @@
     {% if user.is_superuser %}
       <div width=100%>
         <div class="left">
-          <table>
+          <table class="text">
             <tr>
               <th>Meno družinky</th>
-              <th>Body</th>
+              <th>Ciele</th>
             </tr>
             {% for druzinka in druzinky %}
               <tr>
                 <td>{{ druzinka.name }}</td>
-                <td>{{ druzinka.points }}</td>
+                <td id="point">{{ druzinka.goals }}</td>
               </tr>
             {% endfor %}
           </table>
         </div>
         <div class="right">
           {% for message in messages %}
-            <p>{{ message }}</p>
+            {% if message.importance %}
+              <p class="important text">{{ message.time }} - {{ message.text }}</p>
+            {% else %}
+              <p class="text">{{ message.time }} - {{ message.text }}</p>
+            {% endif %}
           {% endfor %}
         </div>
       </div>
-    {% else %}
-      <h1>You don't have enough permissions!</h1>
+      <div style="clear:both"></div>
     {% endif %}
   </body>
 </html>
