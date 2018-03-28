@@ -83,6 +83,7 @@ def opravovatel(request):
 
         druzinka.points += int(request.POST['points'])
         druzinka.save()
+        
         return redirect('/obdlznik/ulohy')
 
     else:
