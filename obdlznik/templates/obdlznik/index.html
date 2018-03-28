@@ -1,0 +1,32 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prehľad</title>
+    <!--<link rel="icon" href="../img/icon.png" type="png">-->
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  </head>
+  <body>
+    <ul>
+      <li><a class="active"><b>Zoznam podstránok</b></a></li>
+      {% if user.is_staff %}
+        <li><a href="{% url 'admin:index' %}">Admin</a></li>
+      {% endif %}
+      {% if user.is_superuser %}
+      <li><a href="../obdlznik/spravca/">Správca hry</a></li>
+      {% endif %}
+      {% if user.is_staff %}
+        <li><a href="../obdlznik/ulohy/">Opravovateľ</a></li>
+      {% endif %}
+      {% if user.is_authenticated %}
+        <li><a href="../obdlznik/hra/">Hra (náboj)</a></li>
+        <li><a href="../obdlznik/logout/">Odhlásiť sa</a></li>
+      {% else %}
+        <li><a href="../obdlznik/login/">Prihlásiť sa</a></li>
+      {% endif %}
+    </ul>
+  </body>
+</html>
