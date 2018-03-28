@@ -98,7 +98,7 @@ def opravovatel(request):
 
         druzinka.save()
 
-        return redirect('/obdlznik/ulohy')
+        return redirect('/obdlznik/ulohy/')
 
     else:
         return render(request, template, {'druzinky': druzinky})
