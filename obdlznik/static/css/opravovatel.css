@@ -44,3 +44,11 @@ select {
   padding-left: 10px;
   font-size: 1em;
 }
+
+.box {
+  padding: 20px;
+  background-color: #f6f6f6;
+  margin: auto;
+  border-radius: 10px;
+  width: 400px;
+}

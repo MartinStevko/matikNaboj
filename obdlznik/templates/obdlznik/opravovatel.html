@@ -10,29 +10,31 @@
     <link rel="stylesheet" href="{% static 'css/opravovatel.css' %}">
   </head>
   <body>
-    <h1>Opravovateľ</h1>
-    {% if user.is_staff %}
-      <!--<label for="druzinka">Vyber družinku:</label>-->
-      <div>
-        {% if message %}
-          <p><b>{{ message }}</b></p>
-        {% endif %}
+    <div class="box">
+      <h1>Opravovateľ</h1>
+      {% if user.is_staff %}
+        <!--<label for="druzinka">Vyber družinku:</label>-->
         <div>
-        Vyber družinku a body (0-5):
-          <form method="POST">
-            {% csrf_token %}
-            <select name="druzinka">
-              <option value="none">----------</option>
-              {% for druzinka in druzinky %}
-                <option value="{{ druzinka.id }}">{{ druzinka.name }}</option>
-              {% endfor %}
-            </select>
-            <input class="field" name="points" type="number" min="0" max="5">
-            <br>
-            <input class="button" type="submit" value="Pridaj body">
-          </form>
+          {% if message %}
+            <p><b>{{ message }}</b></p>
+          {% endif %}
+          <div>
+          Vyber družinku a body (0-5):
+            <form method="POST">
+              {% csrf_token %}
+              <select name="druzinka">
+                <option value="none">----------</option>
+                {% for druzinka in druzinky %}
+                  <option value="{{ druzinka.id }}">{{ druzinka.name }}</option>
+                {% endfor %}
+              </select>
+              <input class="field" name="points" type="number" min="0" max="5">
+              <br>
+              <input class="button" type="submit" value="Pridaj body">
+            </form>
+          </div>
         </div>
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
   </body>
 </html>
