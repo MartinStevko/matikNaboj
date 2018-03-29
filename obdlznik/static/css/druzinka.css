@@ -1,0 +1,64 @@
+body {
+  font-family: sans-serif;
+}
+
+#left {
+  float: left;
+  display: block;
+  position: fixed;
+  width: 370px;
+  height: 100%;
+  background-color: #e1e1e1;
+  padding: 10px;
+}
+
+#right {
+  padding: 15px;
+  padding-left: 400px;
+  padding-right: 30px;
+}
+
+#canvas {
+  border: 20px ridge #e1e1e1;
+  width: 567px;
+  height: 567px;
+}
+
+p {
+  padding-bottom: 0;
+}
+
+.content {
+  margin: 15px;
+  font-size: 1.1em;
+}
+
+th, td {
+  padding: 5px 15px;
+}
+
+.field {
+  height: 40px;
+  width: 60px;
+  font-size: 1em;
+  border: 1px solid #555;
+  border-radius: 10px;
+  padding-left: 10px;
+}
+
+input[type=submit] {
+  background-color: #d1d1d1;
+  border: 1px solid #555;
+  border-radius: 20px;
+  height: 40px;
+  width: 100%;
+  font-size: 1em;
+}
+
+input[type=submit]:hover {
+  background-color: #c1c1c1;
+}
+
+#x {
+  margin-right: 40px;
+}
