@@ -20,7 +20,12 @@ manage.py createsuperuser
 pause
 
 REM Database creation
-manage.py shell < .\base_data.txt
+cd %~dp0
+python base.py
+
+cd ..
+manage.py shell < .\setup\base_data.txt
+del .\setup\base_data.txt
 echo Database successfully created!
 pause
 
