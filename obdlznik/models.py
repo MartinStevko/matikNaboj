@@ -23,7 +23,7 @@ class Goal(models.Model):
     y = models.IntegerField(blank=False, editable=True)
 
     start_time = models.DateTimeField(default=timezone.now)
-    end_time = models.DateTimeField()
+    end_time = models.DateTimeField(null=True)
 
     def __str__(self):
         return "Ciel {} druzinky {}".format(self.id, self.idDruzinka.name)
