@@ -1,0 +1,135 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <title>{{ druzinka.name }}</title>
+    <!--<link rel="icon" href="../img/icon.png" type="png">-->
+    <link rel="stylesheet" href="{% static 'css/druzinka.css' %}">
+  </head>
+  <body>
+    <div id="left">
+      <div class="content">
+        <h1>{{ druzinka.name }}</h1>
+        <table>
+          <tr>
+            <td>Body za úlohy:</td>
+            <td>{{ druzinka.points }}</td>
+          </tr>
+          <tr>
+            <td>Splnené ciele:</td>
+            <td>{{ druzinka.goals }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="content">
+        <h1>Informácie</h1>
+        <form method="POST">
+          {% csrf_token %}
+          <input type="submit" value="Chcem informáciu" name="info">
+        </form>
+      </div>
+
+      <div class="content">
+        <h1>Pohyb</h1>
+        <form method="POST">
+          {% csrf_token %}
+          <center>
+            <label for="x">x:</label>
+            <input id="x" class="field" name="x" type="number" min="0" max="20">
+            <label for="y">y:</label>
+            <input id="y" class="field" name="y" type="number" min="0" max="20">
+          </center>
+          <br>
+          <input type="submit" value="Pohnúť sa" name="move">
+        </form>
+      </div>
+
+      <div class="content">
+        <h1>Som v ciely?</h1>
+        <form method="POST">
+          {% csrf_token %}
+          <input type="submit" value="Odovzdaj polohu" name="is_goal">
+        </form>
+      </div>
+    </div>
+
+    <div id="right">
+      <div>
+        {% if information %}
+          <div class="alert alert-primary alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Info!</strong> {{ information }}.
+          </div>
+        {% endif %}
+
+        {% if not_goal %}
+          <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Pozor!</strong> {{ not_goal }}
+          </div>
+        {% endif %}
+
+        {% if message %}
+          <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Upozornenie!</strong> {{ message }}
+          </div>
+        {% endif %}
+
+        <center>
+          <canvas id="canvas"></canvas>
+          <p>
+            <b>X</b> - vaša poloha
+          </p>
+        </center>
+      </div>
+    </div>
+
+    <script>
+      var c = document.getElementById("canvas");
+      var ctx = c.getContext("2d");
+      ctx.scale(1,0.5);
+
+      var i;
+      for (i = 0; i < 22; i++) {
+        ctx.moveTo(3,3+14*i);
+        ctx.lineTo(297,3+14*i);
+        ctx.moveTo(3+14*i,3);
+        ctx.lineTo(3+14*i,297);
+      }
+      ctx.stroke();
+      ctx.strokeText('X', 7+{{ druzinka.me_x }}*14, ({{ druzinka.me_y }}+1)*14)
+
+      canvas.addEventListener("mousedown", getPosition, false);
+      function getPosition(event) {
+        if (event.pageX || event.pageY) {
+          x = event.pageX;
+          y = event.pageY;
+        }
+        else {
+          x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+          y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+        }
+
+        var canvas = document.getElementById("canvas");
+
+        x -= canvas.offsetLeft+25;
+        y -= canvas.offsetTop+25;
+
+        x = Math.floor(x/24.7);
+        y = Math.floor(y/24.7);
+
+        document.getElementById("x").value = x;
+        document.getElementById("y").value = y;
+      }
+    </script>
+  </body>
+</html>
