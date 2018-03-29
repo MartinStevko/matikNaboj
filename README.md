@@ -1,5 +1,5 @@
 # Naboj (rectangle, triangle)
-Django project for correspondence seminars. 
+Django project for correspondence seminars.
 
 ## Requirements installation
 
@@ -57,7 +57,7 @@ iptables -I INPUT -p tcp -m tcp --dport PORT_NUMBER -j ACCEPT
 
 ## Base database creation
 
-Just run `setup\init_database.bat` script. If you don't want to create base database don't forget to make and then apply migrations. You can do it by typing:
+Just fill in variables fields `druzinky` (users) and `veduci` (staff) and then run `setup\init_database.bat` script. If you don't want to create base database don't forget to make and then apply migrations. You can do it by typing:
 
 ```
 manage.py makemigrations pokemoni
@@ -80,7 +80,7 @@ In CMD:
 ```cmd
 ENV_NAME\Scripts\activate
 ```
-3. Run server on your desired port:
+3. Run server on your desired port (recommended PORT_NUMBER is 80):
 ```cmd
 python manage.py runserver 0.0.0.0:PORT_NUMBER
 ```
@@ -97,11 +97,11 @@ In Terminal:
 ```bash
 source ENV_NAME/bin/activate
 ```
-4. Run server on your desired port:
+4. Run server on your desired port (recommended PORT_NUMBER is 80):
 ```bash
 python manage.py runserver 0.0.0.0:PORT_NUMBER
 ```
 
 ## Application access
 
-After all that you can access to admin site by typing `localhost:PORT_NUMBER/admin` and to apps by typing `localhost:PORT_NUMBER/obdlznik` or `localhost:PORT_NUMBER/trojuholnik` (`localhost` can be substituted by an IP address of server e.g. `192.168.1.47`).
+After all that you can access to admin site by typing `localhost:PORT_NUMBER/admin/` and to apps by typing `localhost:PORT_NUMBER/obdlznik/` or `localhost:PORT_NUMBER/trojuholnik/` (`localhost` can be substituted by an IP address of server e.g. `192.168.1.47`).
