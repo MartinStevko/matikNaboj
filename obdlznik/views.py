@@ -48,54 +48,82 @@ def index(request):
     return render(request, template, {})
 
 def druzinka(request):
+    try:
+        druzinka = Druzinka.objects.get(idUser=request.user)
+    except(KeyError, ValueError, Druzinka.DoesNotExist):
+        message = 'K používateľovi ' + request.user.username + ', pod ktorým si prihlásený/á, družinka neexistuje!'
+        return render(request, 'obdlznik/none.html', {'message':message})
+
     template = 'obdlznik/druzinka.html'
-    druzinka = Druzinka.objects.get(idUser=request.User)
 
     if request.method == 'POST':
         if 'move' in request.POST:
-            if request.POST['x']!=druzinka.me_x and request.POST['y']!=druzinka.me_y:
-                message = 'Posun je možný iba po jednej osi, nie oboch!'
-                error = str(druzinka.nazov) + ' - ' + message
+            try:
+                x = int(request.POST['x'])
+                y = int(request.POST['y'])
+            except(ValueError, TypeError, KeyError):
+                message = 'Zadajte súradnice cieleného políčka, alebo naň kliknite!'
+                error = str(druzinka.name) + ' - ' + message
                 Message.objects.create(text=error)
                 return render(request, template, {'druzinka':druzinka, 'message':message})
 
-            elif request.POST['x']==druzinka.me_x and request.POST['y']==druzinka.me_y:
+            if x!=druzinka.me_x and y!=druzinka.me_y:
+                message = 'Posun je možný iba po jednej osi, nie oboch!'
+                error = str(druzinka.name) + ' - ' + message
+                Message.objects.create(text=error)
+                return render(request, template, {'druzinka':druzinka, 'message':message})
+
+            elif x==druzinka.me_x and y==druzinka.me_y:
                 message = 'Posun na miesto kde práve stojíte nie je možný!'
-                error = str(druzinka.nazov) + ' - ' + message
+                error = str(druzinka.name) + ' - ' + message
                 Message.objects.create(text=error)
                 return render(request, template, {'druzinka':druzinka, 'message':message})
 
             else:
-                druzinka.me_x = request.POST['x']
-                druzinka.me_y = request.POST['y']
-                return HttpResponseRedirect(reverse('obdlznik:druzinka'))
+                druzinka.points -= 1
+                druzinka.me_x = x
+                druzinka.me_y = y
+                druzinka.save()
+
+                return redirect('/obdlznik/hra/')
 
         elif 'info' in request.POST:
             goal = Goal.objects.get(idDruzinka=druzinka, done=False)
-            inf = choice(True, False)
+            inf = choice([True, False])
             if inf:
-                inf = (abs(goal.x - me_x) + 1)*(abs(goal.y - me_y) + 1)
+                inf = 'Vaša informácia je ' + str((abs(goal.x - druzinka.me_x) + 1)*(abs(goal.y - druzinka.me_y) + 1))
             else:
-                inf = 2*(abs(goal.x - me_x) + 1) + 2*(abs(goal.y - me_y) + 1)
+                inf = 'Vaša informácia je ' + str(2*(abs(goal.x - druzinka.me_x) + 1) + 2*(abs(goal.y - druzinka.me_y) + 1))
+
+            druzinka.points -= 1
+            druzinka.save()
+
             return render(request, template, {'druzinka':druzinka, 'information':inf})
 
         elif 'is_goal' in request.POST:
             goal = Goal.objects.get(idDruzinka=druzinka, done=False)
+            druzinka.points -= 1
+            druzinka.save()
+
             if druzinka.me_x == goal.x and druzinka.me_y == goal.y:
                 druzinka.goals += 1
+                druzinka.save()
+
                 goal.end_time = timezone.now()
                 goal.done = True
+                goal.save()
+
                 Goal.objects.create(idDruzinka=druzinka, x=randint(0,20), y=randint(0,20))
 
-                notification = str(druzinka.nazov) + ' - zistili polohu cieľa, bol vygenerovaný nový!'
+                notification = str(druzinka.name) + ' - zistili polohu cieľa, bol vygenerovaný nový!'
                 Message.objects.create(importance=True, text=notification)
-                return HttpResponseRedirect(reverse('obdlznik:druzinka'))
+                return redirect('/obdlznik/hra/')
 
             else:
-                message = 'Nesprávny cieľ :('
-                error = str(druzinka.nazov) + ' - ' + message
+                not_goal = 'Cieľ je nesprávny :('
+                error = str(druzinka.name) + ' - ' + not_goal
                 Message.objects.create(text=error)
-                return render(request, template, {'druzinka':druzinka, 'message':message})
+                return render(request, template, {'druzinka':druzinka, 'not_goal':not_goal})
 
     else:
         return render(request, template, {'druzinka':druzinka})
