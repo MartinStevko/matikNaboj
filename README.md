@@ -1,8 +1,6 @@
 # Naboj (rectangle, triangle)
 Django project for correspondence seminars.
 
-test
-
 ## Requirements installation
 
  - Python (3 or later, version 3.6.0 recommended)
