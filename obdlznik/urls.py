@@ -2,7 +2,7 @@ from django.urls import path, re_path
 
 from . import views
 
-app_name = 'trojuholnik'
+app_name = 'obdlznik'
 
 urlpatterns = [
     path('obdlznik/login/', views.log_in),
