@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
   </head>
   <body>
+    <a class="active"><b>Zoznam podstránok</b></a>
     <ul>
-      <li><a class="active"><b>Zoznam podstránok</b></a></li>
       {% if user.is_staff %}
         <li><a href="{% url 'admin:index' %}">Admin</a></li>
       {% endif %}
